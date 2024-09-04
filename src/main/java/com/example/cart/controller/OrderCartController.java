@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/carts")
@@ -28,6 +30,16 @@ public class OrderCartController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<OrderCart>> getAllOrderCarts() {
+        try {
+            List<OrderCart> orderCarts = orderCartService.getAllOrderCarts();
+            return ResponseEntity.ok(orderCarts);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @PostMapping("/{cartId}/items")
     public ResponseEntity<OrderCart> addProductToCart(@PathVariable Long cartId, @RequestParam Long productId, @RequestParam int quantity) {
         try {
@@ -37,10 +49,14 @@ public class OrderCartController {
         }
     }
 
-    @PostMapping("/{id}/place")
-    public ResponseEntity<OrderCart> placeOrder(@PathVariable Long id) {
+    @PostMapping("/{cartId}/place")
+    public ResponseEntity<OrderCart> placeOrder(
+            @PathVariable Long cartId,
+            @RequestParam String customerName,
+            @RequestParam String address) {
         try {
-            return ResponseEntity.ok(orderCartService.placeOrder(id));
+            OrderCart placedOrder = orderCartService.placeOrder(cartId, customerName, address);
+            return ResponseEntity.ok(placedOrder);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

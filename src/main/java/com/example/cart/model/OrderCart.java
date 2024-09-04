@@ -10,6 +10,27 @@ public class OrderCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String customerName;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    private String address;
+
+
 
     private boolean placed = false;
 
@@ -41,3 +62,4 @@ public class OrderCart {
     @JoinColumn(name = "order_cart_id")
     private List<OrderItem> items = new ArrayList<>();
 }
+
