@@ -53,12 +53,20 @@ public class OrderCartController {
     public ResponseEntity<OrderCart> placeOrder(
             @PathVariable Long cartId,
             @RequestParam String customerName,
-            @RequestParam String address) {
+            @RequestParam String address,
+            @RequestParam Double totalAmount
+    ) {
         try {
-            OrderCart placedOrder = orderCartService.placeOrder(cartId, customerName, address);
+            OrderCart placedOrder = orderCartService.placeOrder(cartId, customerName, address, totalAmount);
             return ResponseEntity.ok(placedOrder);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        orderCartService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 }

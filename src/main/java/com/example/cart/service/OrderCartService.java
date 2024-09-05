@@ -48,15 +48,16 @@ public class OrderCartService {
         return orderCartRepository.findById(id).orElseThrow(() -> new RuntimeException("Order Cart not found"));
     }
 
-    public OrderCart placeOrder(Long cartId, String customerName, String address) {
+    public OrderCart placeOrder(Long cartId, String customerName, String address, Double totalAmount) {
         OrderCart orderCart = orderCartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
 
-        // Add logic here to process the order
+
         orderCart.setCustomerName(customerName);
         orderCart.setAddress(address);
+        orderCart.setTotalAmount(totalAmount);
 
 
-        // Additional business logic like stock validation, payment processing, etc.
+
 
         return orderCartRepository.save(orderCart);
     }
@@ -65,6 +66,15 @@ public class OrderCartService {
         // Logic to retrieve all OrderCart objects from the database
         // Assuming you have a repository or some data source to get the carts
         return orderCartRepository.findAll(); // This is just an example
+    }
+
+    public String deleteOrder(Long id) {
+        if (orderCartRepository.existsById(id)) {
+            orderCartRepository.deleteById(id);
+            return "Product with ID " + id + " has been successfully deleted.";
+        } else {
+            throw new RuntimeException("Product not found with ID " + id);
+        }
     }
 }
 

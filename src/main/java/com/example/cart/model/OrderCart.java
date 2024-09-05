@@ -11,6 +11,15 @@ public class OrderCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String customerName;
+    private Double TotalAmount;
+
+    public Double getTotalAmount() {
+        return TotalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        TotalAmount = totalAmount;
+    }
 
     public String getAddress() {
         return address;
